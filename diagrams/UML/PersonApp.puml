@@ -1,0 +1,67 @@
+@startuml "PersonApp"
+skinparam ClassAttributeIconSize 0
+
+class PersonController {
+    - personContext : IPersonContext
+    - personCsvParser : IPersonCsvParser
+
+    + PersonController(personContext : IPersonContext, \n\
+        personCsvParser : IPersonContext)
+
+    + LoadPeopleFromCsvFile(filepath : string) : void
+
+    + GetPeopleWithCompanyNameContainingEsq() : List<Person>
+    + GetPeopleWithCityDerbyshire() : List<Person>
+    + GetPeopleWithThreeDigitHouseNumber() : List<Person>
+    + GetPeopleWithUrlLongerThan35Characters() : List<Person>
+    + GetPeopleWithSingleDigitPostcodeArea() : List<Person>
+    + GetPeopleWithFirstPhoneNumberLargerThanSecondPhoneNumber() : List<Person>
+}
+
+interface IPersonContext {
+    + AddPeople(people : List<Person>) : void
+    
+    + GetPeopleWhere(predicate<Person>) : List<Person>
+}
+
+class PersonContext {
+    - people : List<Person>
+
+    + AddPeople(people : List<Person>) : void
+    
+    + GetPeopleWhere(predicate<Person>) : List<Person>
+}
+
+interface IPersonCsvParser <<interface>> {
+    + Parse(filepath : string) : List<Person>
+}
+
+class SimplePersonCsvParser {
+    + Parse(filepath : string) : List<Person>
+}
+
+class Person {
+    + Id : int
+    + FirstName : string
+    + LastName : string
+    + Comapny : string
+    + Address : string
+    + City : string
+    + County : string
+    + Postal : string
+    + Phone1 : string
+    + Phone2 : string
+    + Email : string
+    + Web : string
+}
+
+PersonController --> IPersonContext
+PersonController --> IPersonCsvParser
+
+IPersonContext <|.. PersonContext
+IPersonContext ---> Person
+
+IPersonCsvParser <|.. SimplePersonCsvParser
+IPersonCsvParser ---> Person
+
+@enduml
