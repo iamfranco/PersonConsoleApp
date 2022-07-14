@@ -93,6 +93,20 @@ internal class SimplePersonCsvParserTests
                 Phone2 = "01545-817375",
                 Email = "erampy@rampy.co.uk",
                 Web = "http://www.thompsonmichaelcesq.co.uk"
+            },
+            new()
+            {
+                FirstName = "Jules",
+                LastName = "Hiltner",
+                Company = "Benitez, Brigida Esq",
+                Address = "5 Howe St",
+                City = "Broxburn, Uphall and Winchburg",
+                County = "West Lothian",
+                Postal = "EH52 6NF",
+                Phone1 = "01428-343825",
+                Phone2 = "01814-878359",
+                Email = "jules@yahoo.com",
+                Web = "http://www.benitezbrigidaesq.co.uk"
             }
         };
     }

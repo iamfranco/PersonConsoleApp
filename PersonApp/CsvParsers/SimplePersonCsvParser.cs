@@ -69,7 +69,8 @@ public class SimplePersonCsvParser : IPersonCsvParser
     private static List<string> SplitLineByComma(string csvBodyLine)
     {
         string commaSubstitute = "___COMMA___";
-        csvBodyLine = Regex.Replace(csvBodyLine, "(?<=\".+),(?=.+\")", commaSubstitute);
+        Regex regex = new("\"(.*?)\"");
+        csvBodyLine = regex.Replace(csvBodyLine, x => x.Value.Replace(",", commaSubstitute));
 
         List<string> values = csvBodyLine.Split(_delimiter)
             .Select(x => x.Replace(commaSubstitute, ","))
