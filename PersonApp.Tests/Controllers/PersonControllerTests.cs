@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Moq;
 using PersonApp.Contexts;
@@ -124,14 +125,103 @@ internal class PersonControllerTests
         _mockPersonContext.Setup(p => p.People)
             .Returns(people);
 
-        List<Person> peopleWithCompanyEsq = people
-            .Where(person => person.Company.Contains("Esq")).ToList();
+        List<Person> expectedResult = new() { people[2] };
 
         // Act
         List<Person> result = _personController.GetPeopleWithCompanyNameContainingEsq();
 
         // Assert
-        result.Should().Equal(peopleWithCompanyEsq);
+        result.Should().Equal(expectedResult);
+    }
+
+    [Test]
+    public void GetPeopleWithCountyDerbyshire_Should_Return_Correct_List_Of_People()
+    {
+        // Arrange
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonContext.Setup(p => p.People)
+            .Returns(people);
+
+        List<Person> expectedResult = new() { people[1] };
+
+        // Act
+        List<Person> result = _personController.GetPeopleWithCountyDerbyshire();
+
+        // Assert
+        result.Should().Equal(expectedResult);
+    }
+
+    [Test]
+    public void GetPeopleWithThreeDigitHouseNumber_Should_Return_Correct_List_Of_People()
+    {
+        // Arrange
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonContext.Setup(p => p.People)
+            .Returns(people);
+
+        List<Person> expectedResult = new() { people[2] };
+
+        // Act
+        List<Person> result = _personController.GetPeopleWithThreeDigitHouseNumber();
+
+        // Assert
+        result.Should().Equal(expectedResult);
+    }
+
+    [Test]
+    public void GetPeopleWithUrlLongerThan35Characters_Should_Return_Correct_List_Of_People()
+    {
+        // Arrange
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonContext.Setup(p => p.People)
+            .Returns(people);
+
+        List<Person> expectedResult = new() { people[0] };
+
+        // Act
+        List<Person> result = _personController.GetPeopleWithUrlLongerThan35Characters();
+
+        // Assert
+        result.Should().Equal(expectedResult);
+    }
+
+    [Test]
+    public void GetPeopleWithSingleDigitPostcodeArea_Should_Return_Correct_List_Of_People()
+    {
+        // Arrange
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonContext.Setup(p => p.People)
+            .Returns(people);
+
+        List<Person> expectedResult = new() { people[0], people[2] };
+
+        // Act
+        List<Person> result = _personController.GetPeopleWithSingleDigitPostcodeArea();
+
+        // Assert
+        result.Should().Equal(expectedResult);
+    }
+
+    [Test]
+    public void GetPeopleWithFirstPhoneNumberLargerThanSecondPhoneNumber_Should_Return_Correct_List_Of_People()
+    {
+        // Arrange
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonContext.Setup(p => p.People)
+            .Returns(people);
+
+        List<Person> expectedResult = new() { people[1] };
+
+        // Act
+        List<Person> result = _personController.GetPeopleWithFirstPhoneNumberLargerThanSecondPhoneNumber();
+
+        // Assert
+        result.Should().Equal(expectedResult);
     }
 
     private List<Person> GetListOfPeople()
@@ -161,7 +251,7 @@ internal class PersonControllerTests
                     Company = "Cap Gemini America",
                     Address = "5 Binney St",
                     City = "Abbey Ward",
-                    County = "Buckinghamshire",
+                    County = "Derbyshire",
                     Postal = "HP11 2AX",
                     Phone1 = "01937-864715",
                     Phone2 = "01714-737668",
@@ -174,7 +264,7 @@ internal class PersonControllerTests
                     FirstName = "France",
                     LastName = "Andrade",
                     Company = "Elliott, John W Esq",
-                    Address = "8 Moor Place",
+                    Address = "846 Moor Place",
                     City = "East Southbourne and Tuckton W",
                     County = "Bournemouth",
                     Postal = "BH6 3BE",
