@@ -11,7 +11,7 @@ class PersonController {
     + LoadPeopleFromCsvFile(filepath : string) : void
 
     + GetPeopleWithCompanyNameContainingEsq() : List<Person>
-    + GetPeopleWithCityDerbyshire() : List<Person>
+    + GetPeopleWithCountyDerbyshire() : List<Person>
     + GetPeopleWithThreeDigitHouseNumber() : List<Person>
     + GetPeopleWithUrlLongerThan35Characters() : List<Person>
     + GetPeopleWithSingleDigitPostcodeArea() : List<Person>
@@ -25,7 +25,7 @@ abstract PersonContextBase <<abstract>> {
 }
 
 class PersonContext {
-    + people : List<Person>
+    + People : List<Person>
 
     + AddPeople(people : List<Person>) : void
 }
