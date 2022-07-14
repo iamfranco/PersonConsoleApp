@@ -12,7 +12,7 @@ using PersonApp.Models;
 namespace PersonApp.Tests.Controllers;
 internal class PersonControllerTests
 {
-    private Mock<IPersonContext> _mockPersonContext;
+    private Mock<PersonContextBase> _mockPersonContext;
     private Mock<IPersonCsvParser> _mockPersonCsvParser;
     private PersonController _personController;
 
@@ -20,7 +20,7 @@ internal class PersonControllerTests
     public void Setup()
     {
         // Arrange
-        _mockPersonContext = new Mock<IPersonContext>();
+        _mockPersonContext = new Mock<PersonContextBase>();
         _mockPersonCsvParser = new Mock<IPersonCsvParser>();
 
         _personController = new PersonController(_mockPersonContext.Object, _mockPersonCsvParser.Object);
@@ -113,6 +113,25 @@ internal class PersonControllerTests
 
         // Assert
         act.Should().Throw<Exception>();
+    }
+
+    [Test]
+    public void GetPeopleWithCompanyNameContainingEsq_Should_Return_Correct_List_Of_People()
+    {
+        // Arrange
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonContext.Setup(p => p.People)
+            .Returns(people);
+
+        List<Person> peopleWithCompanyEsq = people
+            .Where(person => person.Company.Contains("Esq")).ToList();
+
+        // Act
+        List<Person> result = _personController.GetPeopleWithCompanyNameContainingEsq();
+
+        // Assert
+        result.Should().Equal(peopleWithCompanyEsq);
     }
 
     private List<Person> GetListOfPeople()

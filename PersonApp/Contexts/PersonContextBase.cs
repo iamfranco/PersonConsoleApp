@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PersonApp.Contexts;
-public interface IPersonContext
+public abstract class PersonContextBase
 {
-    void AddPeople(List<Person> people);
+    public abstract List<Person> People { get; }
+
+    public abstract void AddPeople(List<Person> people);
 }

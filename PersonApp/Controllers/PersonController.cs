@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 namespace PersonApp.Controllers;
 public class PersonController
 {
-    private IPersonContext _personContext;
+    private PersonContextBase _personContext;
     private IPersonCsvParser _personCsvParser;
 
-    public PersonController(IPersonContext personContext, IPersonCsvParser personCsvParser)
+    public PersonController(PersonContextBase personContext, IPersonCsvParser personCsvParser)
     {
         if (personContext is null)
             throw new ArgumentNullException(null, "personContext should not be null");
@@ -32,5 +32,10 @@ public class PersonController
 
         List<Person> people = _personCsvParser.Parse(filePath);
         _personContext.AddPeople(people);
+    }
+
+    public List<Person> GetPeopleWithCompanyNameContainingEsq()
+    {
+        return _personContext.People.Where(person => person.Company.Contains("Esq")).ToList();
     }
 }
