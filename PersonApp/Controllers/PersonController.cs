@@ -1,5 +1,6 @@
 ﻿using PersonApp.Contexts;
 using PersonApp.CsvParsers;
+using PersonApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,14 @@ public class PersonController
 
         _personContext = personContext;
         _personCsvParser = personCsvParser;
+    }
+
+    public void LoadPeopleFromCsvFile(string filePath)
+    {
+        if (filePath is null)
+            throw new ArgumentNullException(null, "filePath should not be null");
+
+        List<Person> people = _personCsvParser.Parse(filePath);
+        _personContext.AddPeople(people);
     }
 }
