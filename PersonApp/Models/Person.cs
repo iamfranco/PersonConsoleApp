@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 namespace PersonApp.Models;
 public class Person
 {
-    public int Id { get; init; }
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
-    public string Company { get; init; }
-    public string Address { get; init; }
-    public string City { get; init; }
-    public string County { get; init; }
-    public string Postal { get; init; }
-    public string Phone1 { get; init; }
-    public string Phone2 { get; init; }
-    public string Email { get; init; }
-    public string Web { get; init; }
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Company { get; set; }
+    public string Address { get; set; }
+    public string City { get; set; }
+    public string County { get; set; }
+    public string Postal { get; set; }
+    public string Phone1 { get; set; }
+    public string Phone2 { get; set; }
+    public string Email { get; set; }
+    public string Web { get; set; }
 }
