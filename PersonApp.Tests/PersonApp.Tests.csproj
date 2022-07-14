@@ -22,4 +22,14 @@
     <ProjectReference Include="..\PersonApp\PersonApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CsvParsers\InputFile\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CsvParsers\InputFile\testInput.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
