@@ -1,7 +1,7 @@
 ﻿using PersonApp.Contexts;
 using PersonApp.Models;
 
-namespace PersonApp.Tests.Contexts;
+namespace PersonApp.Contexts;
 public class PersonContext : PersonContextBase
 {
     public override List<Person> People { get; } = new List<Person>();

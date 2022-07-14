@@ -1,8 +1,7 @@
-﻿using PersonApp.CsvParsers;
-using PersonApp.Models;
+﻿using PersonApp.Models;
 using System.Text.RegularExpressions;
 
-namespace PersonApp.Tests.CsvParsers;
+namespace PersonApp.CsvParsers;
 public class SimplePersonCsvParser : IPersonCsvParser
 {
     private static string _delimiter = ",";

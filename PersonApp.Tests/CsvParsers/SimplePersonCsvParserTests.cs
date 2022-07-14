@@ -1,10 +1,5 @@
 ﻿using PersonApp.CsvParsers;
 using PersonApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonApp.Tests.CsvParsers;
 internal class SimplePersonCsvParserTests
@@ -47,7 +42,7 @@ internal class SimplePersonCsvParserTests
 
         // Assert
         result.Count.Should().Be(expectedResult.Count);
-        for (int i=0; i<result.Count; i++)
+        for (int i = 0; i < result.Count; i++)
         {
             result[i].Should().BeEquivalentTo(expectedResult[i]);
         }
