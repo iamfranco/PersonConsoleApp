@@ -75,7 +75,7 @@ internal class SimplePersonCsvParserTests
 
         // Assert
         act.Should().Throw<Exception>()
-            .WithMessage("file is incomplete (has missing fields in main content)");
+            .WithMessage("CSV file is incomplete (missing fields in main content)");
     }
 
     [Test]
