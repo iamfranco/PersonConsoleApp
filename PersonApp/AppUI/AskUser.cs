@@ -15,9 +15,18 @@ public class AskUser
     public void AskUserForCsvFilePath()
     {
         string csvFilePath = AnsiConsole.Ask<string>("Enter .csv file path to load (full path): ");
-        _personController.LoadPeopleFromCsvFile(csvFilePath);
 
-        AnsiConsole.Markup("\n.csv file [green]loaded[/].\n\n");
+        try
+        {
+            _personController.LoadPeopleFromCsvFile(csvFilePath);
+        } 
+        catch (FileLoadException ex)
+        {
+            AnsiConsole.MarkupLine($"\n[red]PROBLEM: {ex.Message}[/]\n");
+            AskUserForCsvFilePath();
+        }
+
+        AnsiConsole.MarkupLine("\n.csv file [green]loaded[/].\n");
 
         AskUserToSelectPeopleFilterOption();
     }
