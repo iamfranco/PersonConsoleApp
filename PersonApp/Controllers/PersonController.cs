@@ -26,8 +26,15 @@ public class PersonController
         if (filePath is null)
             throw new ArgumentNullException(null, "filePath should not be null");
 
-        List<Person> people = _personCsvParser.Parse(filePath);
-        _personContext.AddPeople(people);
+        try
+        {
+            List<Person> people = _personCsvParser.Parse(filePath);
+            _personContext.AddPeople(people);
+        }
+        catch (Exception ex)
+        {
+            throw new FileLoadException(ex.Message);
+        }
     }
 
     public List<Person> GetPeopleWithCompanyNameContainingEsq()
