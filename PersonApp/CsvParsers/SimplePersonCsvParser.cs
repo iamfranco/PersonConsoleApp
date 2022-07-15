@@ -68,10 +68,10 @@ public class SimplePersonCsvParser : IPersonCsvParser
             int headerIndex = headerColumns.IndexOf(headerLabel);
 
             if (headerIndex == -1)
-                throw new KeyNotFoundException($".csv file has no header column: {headerLabel}");
+                throw new KeyNotFoundException($"CSV file has no header column [{headerLabel}]");
 
             if (headerIndex >= values.Count)
-                throw new Exception("file is incomplete (has missing fields in main content)");
+                throw new Exception("CSV file is incomplete (missing fields in main content)");
 
             return values.ElementAt(headerIndex);
         }

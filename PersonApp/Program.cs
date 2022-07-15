@@ -9,4 +9,5 @@ PersonController personController = new PersonController(personContext, personCs
 
 AskUser askUser = new AskUser(personController);
 
+Console.Clear();
 askUser.AskUserForCsvFilePath();
