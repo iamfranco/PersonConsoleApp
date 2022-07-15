@@ -1,5 +1,4 @@
-﻿using PersonApp.Contexts;
-using PersonApp.Models;
+﻿using PersonApp.Models;
 
 namespace PersonApp.Contexts;
 public class PersonContext : PersonContextBase
