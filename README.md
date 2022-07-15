@@ -22,9 +22,13 @@ Here we have 3 folders:
 To run the application:
 
 1. clone the repository to your computer
-2. then navigate to the `Person` folder (with `cd` command or otherwise)
+2. then navigate to the `PersonApp` folder (with `cd` command or otherwise)
 3. then run the following command
 
 ```c#
 dotnet run
 ```
+
+# Demo
+
+![App Demo](diagrams/appDemo.gif)
