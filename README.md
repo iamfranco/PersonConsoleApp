@@ -32,3 +32,7 @@ dotnet run
 # Demo
 
 ![App Demo](diagrams/appDemo.gif)
+
+# UML Diagram
+
+![UML Diagram](diagrams/UML/PersonApp.png)
