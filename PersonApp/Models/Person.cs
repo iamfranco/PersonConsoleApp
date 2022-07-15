@@ -19,4 +19,23 @@ public class Person
     public string Phone2 { get; set; }
     public string Email { get; set; }
     public string Web { get; set; }
+
+    public Person Clone()
+    {
+        return new Person()
+        {
+            Id = Id,
+            FirstName = FirstName,
+            LastName = LastName,
+            Company = Company,
+            Address = Address,
+            City = City,
+            County = County,
+            Postal = Postal,
+            Phone1 = Phone1,
+            Phone2 = Phone2,
+            Email = Email,
+            Web = Web
+        };
+    }
 }

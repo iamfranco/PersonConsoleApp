@@ -42,44 +42,60 @@ internal class PersonContextTests
     public void AddPeople_With_People_Then_PersonContextPeople_Should_Return_Input_People()
     {
         // Arrange
-        List<Person> people = GetListOfPeople();
+        List<Person> peopleWithoutId = GetListOfPeople();
+        List<Person> expectedResult = PopulateId(peopleWithoutId);
 
         // Act
-        _personContext.AddPeople(people);
+        _personContext.AddPeople(peopleWithoutId);
+        List<Person> result = _personContext.People;
 
         // Assert
-        _personContext.People.Should().Equal(people);
+        result.Count.Should().Be(expectedResult.Count);
+        for (int i = 0; i < expectedResult.Count; i++)
+        {
+            result[i].Should().BeEquivalentTo(expectedResult[i]);
+        }
     }
 
     [Test]
     public void AddPeople_Multiple_Times_Then_PersonContextPeople_Should_Return_All_Added_Input_People()
     {
         // Arrange 
-        List<Person> people = GetListOfPeople();
-        List<Person> expectedResult = people.Concat(people).ToList();
+        List<Person> peopleWithoutId = GetListOfPeople();
+        List<Person> expectedResult = PopulateId(peopleWithoutId.Concat(peopleWithoutId).ToList());
 
         // Act
-        _personContext.AddPeople(people);
-        _personContext.AddPeople(people);
+        _personContext.AddPeople(peopleWithoutId);
+        _personContext.AddPeople(peopleWithoutId);
+        List<Person> result = _personContext.People;
 
         // Assert
-        _personContext.People.Should().Equal(expectedResult);
+        result.Count.Should().Be(expectedResult.Count);
+        for (int i = 0; i < expectedResult.Count; i++)
+        {
+            result[i].Should().BeEquivalentTo(expectedResult[i]);
+        }
     }
 
     [Test]
     public void AddPeople_Then_Modify_Input_People_Should_Not_Modify_PersonContextPeople()
     {
         // Arrange 
-        List<Person> people = GetListOfPeople();
-        List<Person> expectedResult = people.ToList();
+        List<Person> peopleWithoutId = GetListOfPeople();
+        List<Person> expectedResult = PopulateId(peopleWithoutId);
 
         // Act
-        _personContext.AddPeople(people);
-        people.Remove(people[0]);
+        _personContext.AddPeople(peopleWithoutId);
+        peopleWithoutId.Remove(peopleWithoutId[0]);
+        List<Person> result = _personContext.People;
 
         // Assert
-        _personContext.People.Should().NotEqual(people);
-        _personContext.People.Should().Equal(expectedResult);
+        result.Count.Should().NotBe(peopleWithoutId.Count);
+        result.Count.Should().Be(expectedResult.Count);
+        for (int i = 0; i < expectedResult.Count; i++)
+        {
+            result[i].Should().BeEquivalentTo(expectedResult[i]);
+        }
     }
 
     private List<Person> GetListOfPeople()
@@ -88,7 +104,6 @@ internal class PersonContextTests
             {
                 new()
                 {
-                    Id = 1,
                     FirstName = "Aleshia",
                     LastName = "Tomkiewicz",
                     Company = "Alan D Rosenburg Cpa Pc",
@@ -103,7 +118,6 @@ internal class PersonContextTests
                 },
                 new()
                 {
-                    Id = 2,
                     FirstName = "Evan",
                     LastName = "Zigomalas",
                     Company = "Cap Gemini America",
@@ -118,7 +132,6 @@ internal class PersonContextTests
                 },
                 new()
                 {
-                    Id = 3,
                     FirstName = "France",
                     LastName = "Andrade",
                     Company = "Elliott, John W Esq",
@@ -132,5 +145,15 @@ internal class PersonContextTests
                     Web = "http://www.elliottjohnwesq.co.uk"
                 }
             };
+    }
+
+    private List<Person> PopulateId(List<Person> people)
+    {
+        return people.Select((x, index) =>
+        {
+            Person y = x.Clone();
+            y.Id = index + 1;
+            return y;
+        }).ToList();
     }
 }
