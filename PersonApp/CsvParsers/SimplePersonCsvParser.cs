@@ -69,14 +69,20 @@ public class SimplePersonCsvParser : IPersonCsvParser
     private static List<string> SplitLineByComma(string csvBodyLine)
     {
         string commaSubstitute = "___COMMA___";
-        Regex regex = new("\"(.*?)\"");
-        csvBodyLine = regex.Replace(csvBodyLine, x => x.Value.Replace(",", commaSubstitute));
+        csvBodyLine = ReplaceCommaBetweenQuotesWithSubstituteString(csvBodyLine, commaSubstitute);
 
         List<string> values = csvBodyLine.Split(_delimiter)
-            .Select(x => x.Replace(commaSubstitute, ","))
+            .Select(x => x.Replace(commaSubstitute, _delimiter))
             .Select(x => x.Replace("\"", ""))
             .ToList();
 
         return values;
+    }
+
+    private static string ReplaceCommaBetweenQuotesWithSubstituteString(string csvBodyLine, string commaSubstitute)
+    {
+        Regex regexMatchBetweenQuotes = new("\"(.*?)\"");
+        csvBodyLine = regexMatchBetweenQuotes.Replace(csvBodyLine, x => x.Value.Replace(_delimiter, commaSubstitute));
+        return csvBodyLine;
     }
 }
