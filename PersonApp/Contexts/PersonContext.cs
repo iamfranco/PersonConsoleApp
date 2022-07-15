@@ -11,6 +11,17 @@ public class PersonContext : PersonContextBase
         if (people is null)
             throw new ArgumentNullException(null, "people should not be null");
 
-        People.AddRange(people);
+        int lastId = 0;
+        if (People.Count > 0)
+            lastId = People.Last().Id;
+
+        List<Person> peopleWithId = people.Select((x, index) =>
+        {
+            Person y = x.Clone();
+            y.Id = lastId + index + 1;
+            return y;
+        }).ToList();
+
+        People.AddRange(peopleWithId);
     }
 }
