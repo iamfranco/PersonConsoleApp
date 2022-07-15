@@ -48,6 +48,64 @@ internal class SimplePersonCsvParserTests
         }
     }
 
+    [Test]
+    public void Parse_BlankFile_Should_Throw_Exception()
+    {
+        // Arrange
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string filePath = currentDirectory + @"\CsvParsers\InputFile\testInputBlankFile.csv";
+
+        // Act
+        Action act = () => _personCsvParser.Parse(filePath);
+
+        // Assert
+        act.Should().Throw<Exception>()
+            .WithMessage("File has less than 2 lines, not suitable for loading list of people");
+    }
+
+    [Test]
+    public void Parse_CsvFile_With_CorrectHeader_But_MissingContent_Should_Throw_Exception()
+    {
+        // Arrange
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string filePath = currentDirectory + @"\CsvParsers\InputFile\testInputCorrectHeaderMissingContent.csv";
+
+        // Act
+        Action act = () => _personCsvParser.Parse(filePath);
+
+        // Assert
+        act.Should().Throw<Exception>()
+            .WithMessage("file is incomplete (has missing fields in main content)");
+    }
+
+    [Test]
+    public void Parse_LoremIpsumFile_Should_Throw_KeyNotFoundException()
+    {
+        // Arrange
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string filePath = currentDirectory + @"\CsvParsers\InputFile\testInputLoremIpsum.csv";
+
+        // Act
+        Action act = () => _personCsvParser.Parse(filePath);
+
+        // Assert
+        act.Should().Throw<KeyNotFoundException>();
+    }
+
+    [Test]
+    public void Parse_CsvFile_With_Wrong_Headers_Should_Throw_KeyNotFoundException()
+    {
+        // Arrange
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string filePath = currentDirectory + @"\CsvParsers\InputFile\testInputWrongHeaders.csv";
+
+        // Act
+        Action act = () => _personCsvParser.Parse(filePath);
+
+        // Assert
+        act.Should().Throw<KeyNotFoundException>();
+    }
+
     private List<Person> GetTestInputPeople()
     {
         return new()

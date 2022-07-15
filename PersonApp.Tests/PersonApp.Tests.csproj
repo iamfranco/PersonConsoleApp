@@ -23,11 +23,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CsvParsers\InputFile\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="CsvParsers\InputFile\testInput.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CsvParsers\InputFile\testInputBlankFile.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CsvParsers\InputFile\testInputCorrectHeaderMissingContent.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CsvParsers\InputFile\testInputLoremIpsum.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CsvParsers\InputFile\testInputWrongHeaders.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -79,35 +79,21 @@ internal class PersonControllerTests
     }
 
     [Test]
-    public void LoadPeopleFromCsvFile_With_Invalid_FilePath_With_PersonCsvParser_Throwing_Exception_Should_Throw_Same_Exception()
+    public void LoadPeopleFromCsvFile_With_PersonCsvParser_Throwing_Exception_Should_Throw_FileLoadException_With_Same_Exception_Message()
     {
         // Arrange
-        string filePath = @"C:\Users\...\invalid\path\input.csv";
+        string filePath = @"C:\Users\...\someBadCsv.csv";
+        string exceptionMessage = "Some Exception Message";
 
         _mockPersonCsvParser.Setup(p => p.Parse(filePath))
-            .Throws<FileNotFoundException>();
+            .Throws(new Exception(exceptionMessage));
 
         // Act
         Action act = () => _personController.LoadPeopleFromCsvFile(filePath);
 
         // Assert
-        act.Should().Throw<FileNotFoundException>();
-    }
-
-    [Test]
-    public void LoadPeopleFromCsvFile_With_Invalid_Csv_Format_With_PersonCsvParser_Throwing_Exception_Should_Throw_Same_Exception()
-    {
-        // Arrange
-        string filePath = @"C:\Users\...\inputInvalidCsv.csv";
-
-        _mockPersonCsvParser.Setup(p => p.Parse(filePath))
-            .Throws<Exception>();
-
-        // Act
-        Action act = () => _personController.LoadPeopleFromCsvFile(filePath);
-
-        // Assert
-        act.Should().Throw<Exception>();
+        act.Should().Throw<FileLoadException>()
+            .WithMessage(exceptionMessage);
     }
 
     [Test]
