@@ -37,7 +37,7 @@ public class AskUser
         {
             {"Get people with company name that has \"Esq\"",
                 _personController.GetPeopleWithCompanyNameContainingEsq },
-            {"Get people who lives in \"Darbyshire\"",
+            {"Get people who lives in \"Derbyshire\"",
                 _personController.GetPeopleWithCountyDerbyshire },
             {"Get people with three digit house number",
                 _personController.GetPeopleWithThreeDigitHouseNumber },
