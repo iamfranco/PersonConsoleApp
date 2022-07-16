@@ -1,15 +1,18 @@
 ﻿using PersonApp.Controllers;
 using PersonApp.Models;
+using PersonApp.StringFormatters;
 using Spectre.Console;
 
 namespace PersonApp.AppUI;
 public class AskUser
 {
     private PersonController _personController;
+    private IPersonStringFormatter _personStringFormatter;
 
-    public AskUser(PersonController personController)
+    public AskUser(PersonController personController, IPersonStringFormatter personStringFormatter)
     {
         _personController = personController;
+        _personStringFormatter = personStringFormatter;
     }
 
     public void AskUserForCsvFilePath()
@@ -91,7 +94,7 @@ public class AskUser
 
         foreach (Person person in people)
         {
-            Console.WriteLine($"{person.Id} - {person.FirstName} {person.LastName} - {person.Company}");
+            Console.WriteLine(_personStringFormatter.GetPersonFormattedString(person));
         }
     }
 }
