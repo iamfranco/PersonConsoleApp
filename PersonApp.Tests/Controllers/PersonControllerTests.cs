@@ -7,7 +7,7 @@ using PersonApp.Models;
 namespace PersonApp.Tests.Controllers;
 internal class PersonControllerTests
 {
-    private Mock<PersonContextBase> _mockPersonContext;
+    private Mock<IPersonContext> _mockPersonContext;
     private Mock<IPersonCsvParser> _mockPersonCsvParser;
     private PersonController _personController;
 
@@ -15,7 +15,7 @@ internal class PersonControllerTests
     public void Setup()
     {
         // Arrange
-        _mockPersonContext = new Mock<PersonContextBase>();
+        _mockPersonContext = new Mock<IPersonContext>();
         _mockPersonCsvParser = new Mock<IPersonCsvParser>();
 
         _personController = new PersonController(_mockPersonContext.Object, _mockPersonCsvParser.Object);

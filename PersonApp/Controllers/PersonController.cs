@@ -6,10 +6,10 @@ using System.Text.RegularExpressions;
 namespace PersonApp.Controllers;
 public class PersonController
 {
-    private PersonContextBase _personContext;
+    private IPersonContext _personContext;
     private IPersonCsvParser _personCsvParser;
 
-    public PersonController(PersonContextBase personContext, IPersonCsvParser personCsvParser)
+    public PersonController(IPersonContext personContext, IPersonCsvParser personCsvParser)
     {
         if (personContext is null)
             throw new ArgumentNullException(null, "personContext should not be null");
