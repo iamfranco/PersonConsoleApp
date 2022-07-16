@@ -2,11 +2,11 @@
 skinparam ClassAttributeIconSize 0
 
 class PersonController {
-    - personContext : PersonContextBase
+    - personContext : IPersonContext
     - personCsvParser : IPersonCsvParser
 
-    + PersonController(personContext : PersonContextBase, \n\
-        personCsvParser : PersonContextBase)
+    + PersonController(personContext : IPersonContext, \n\
+        personCsvParser : IPersonCsvParser)
 
     + LoadPeopleFromCsvFile(filepath : string) : void
 
@@ -18,15 +18,13 @@ class PersonController {
     + GetPeopleWithFirstPhoneNumberLargerThanSecondPhoneNumber() : List<Person>
 }
 
-abstract PersonContextBase <<abstract>> {
-    {abstract} + People : List<Person>
-
-    {abstract} + AddPeople(people : List<Person>) : void
+interface IPersonContext <<intereface>> {
+    + GetPeople() : List<Person>
+    + AddPeople(people : List<Person>) : void
 }
 
 class PersonContext {
-    + People : List<Person>
-
+    + GetPeople() : List<Person>
     + AddPeople(people : List<Person>) : void
 }
 
@@ -53,11 +51,11 @@ class Person {
     + Web : string
 }
 
-PersonController --> PersonContextBase
+PersonController --> IPersonContext
 PersonController --> IPersonCsvParser
 
-PersonContextBase <|-- PersonContext
-PersonContextBase ---> Person
+IPersonContext <|-- PersonContext
+IPersonContext ---> Person
 
 IPersonCsvParser <|.. SimplePersonCsvParser
 IPersonCsvParser ---> Person
