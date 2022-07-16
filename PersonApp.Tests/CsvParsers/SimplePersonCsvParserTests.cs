@@ -49,7 +49,7 @@ internal class SimplePersonCsvParserTests
     }
 
     [Test]
-    public void Parse_BlankFile_Should_Throw_Exception()
+    public void Parse_BlankFile_Should_Throw_FileLoadException()
     {
         // Arrange
         string currentDirectory = Directory.GetCurrentDirectory();
@@ -59,12 +59,11 @@ internal class SimplePersonCsvParserTests
         Action act = () => _personCsvParser.Parse(filePath);
 
         // Assert
-        act.Should().Throw<Exception>()
-            .WithMessage("File has less than 2 lines, not suitable for loading list of people");
+        act.Should().Throw<FileLoadException>();
     }
 
     [Test]
-    public void Parse_CsvFile_With_CorrectHeader_But_MissingContent_Should_Throw_Exception()
+    public void Parse_CsvFile_With_CorrectHeader_But_MissingContent_Should_Throw_FileLoadException()
     {
         // Arrange
         string currentDirectory = Directory.GetCurrentDirectory();
@@ -74,12 +73,11 @@ internal class SimplePersonCsvParserTests
         Action act = () => _personCsvParser.Parse(filePath);
 
         // Assert
-        act.Should().Throw<Exception>()
-            .WithMessage("CSV file is incomplete (missing fields in main content)");
+        act.Should().Throw<FileLoadException>();
     }
 
     [Test]
-    public void Parse_LoremIpsumFile_Should_Throw_KeyNotFoundException()
+    public void Parse_LoremIpsumFile_Should_Throw_FileLoadException()
     {
         // Arrange
         string currentDirectory = Directory.GetCurrentDirectory();
@@ -89,11 +87,11 @@ internal class SimplePersonCsvParserTests
         Action act = () => _personCsvParser.Parse(filePath);
 
         // Assert
-        act.Should().Throw<KeyNotFoundException>();
+        act.Should().Throw<FileLoadException>();
     }
 
     [Test]
-    public void Parse_CsvFile_With_Wrong_Headers_Should_Throw_KeyNotFoundException()
+    public void Parse_CsvFile_With_Wrong_Headers_Should_Throw_FileLoadException()
     {
         // Arrange
         string currentDirectory = Directory.GetCurrentDirectory();
@@ -103,7 +101,7 @@ internal class SimplePersonCsvParserTests
         Action act = () => _personCsvParser.Parse(filePath);
 
         // Assert
-        act.Should().Throw<KeyNotFoundException>();
+        act.Should().Throw<FileLoadException>();
     }
 
     private List<Person> GetTestInputPeople()

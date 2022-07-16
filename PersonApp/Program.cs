@@ -2,12 +2,20 @@
 using PersonApp.Contexts;
 using PersonApp.Controllers;
 using PersonApp.CsvParsers;
+using PersonApp.StringFormatters;
 
-PersonContextBase personContext = new PersonContext();
-IPersonCsvParser personCsvParser = new SimplePersonCsvParser();
-PersonController personController = new PersonController(personContext, personCsvParser);
+IPersonContext personContext = new PersonContext();
+IPersonCsvParser defaultPersonCsvParser = new SimplePersonCsvParser();
+IPersonStringFormatter personStringFormatter = new PersonStringFormatter();
 
-AskUser askUser = new AskUser(personController);
+Dictionary<string, IPersonCsvParser> csvParserDictionary = new()
+{
+    {"Default CSV Parser", defaultPersonCsvParser }
+};
+
+PersonController personController = new PersonController(personContext, defaultPersonCsvParser);
+
+AskUser askUser = new AskUser(personController, personStringFormatter, csvParserDictionary);
 
 Console.Clear();
-askUser.AskUserForCsvFilePath();
+askUser.AskUserToLoadCsvFileOrChangeCsvParser();

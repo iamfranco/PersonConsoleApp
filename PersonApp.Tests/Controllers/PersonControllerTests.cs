@@ -7,7 +7,7 @@ using PersonApp.Models;
 namespace PersonApp.Tests.Controllers;
 internal class PersonControllerTests
 {
-    private Mock<PersonContextBase> _mockPersonContext;
+    private Mock<IPersonContext> _mockPersonContext;
     private Mock<IPersonCsvParser> _mockPersonCsvParser;
     private PersonController _personController;
 
@@ -15,7 +15,7 @@ internal class PersonControllerTests
     public void Setup()
     {
         // Arrange
-        _mockPersonContext = new Mock<PersonContextBase>();
+        _mockPersonContext = new Mock<IPersonContext>();
         _mockPersonCsvParser = new Mock<IPersonCsvParser>();
 
         _personController = new PersonController(_mockPersonContext.Object, _mockPersonCsvParser.Object);
@@ -41,6 +41,43 @@ internal class PersonControllerTests
         // Assert
         act.Should().Throw<ArgumentNullException>()
             .WithMessage("personCsvParser should not be null");
+    }
+
+    [Test]
+    public void SetPersonCsvParser_With_Null_PersonCsvParser_Should_Throw_Null_Exception()
+    {
+        // Arrange
+        IPersonCsvParser personCsvParser = null;
+
+        // Act
+        Action act = () => _personController.SetPersonCsvParser(personCsvParser);
+
+        // Assert
+        act.Should().Throw<ArgumentNullException>()
+            .WithMessage("personCsvParser should not be null");
+    }
+
+    [Test]
+    public void SetPersonCsvParser_With_PersonCsvParser_Then_LoadPeopleFromCsvFile_Should_Load_With_New_Parser()
+    {
+        // Arrange
+        Mock<IPersonCsvParser> newMockPersonCsvParser = new Mock<IPersonCsvParser>();
+        string filePath = "some/file/path";
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonCsvParser.Setup(p => p.Parse(filePath))
+            .Returns(people);
+
+        newMockPersonCsvParser.Setup(p => p.Parse(filePath))
+            .Returns(people);
+
+        // Act
+        _personController.SetPersonCsvParser(newMockPersonCsvParser.Object);
+        _personController.LoadPeopleFromCsvFile(filePath);
+
+        // Assert
+        _mockPersonCsvParser.Verify(x => x.Parse(filePath), Times.Never());
+        newMockPersonCsvParser.Verify(x => x.Parse(filePath), Times.Once());
     }
 
     [Test]

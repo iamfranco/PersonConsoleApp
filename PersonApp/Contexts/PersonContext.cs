@@ -1,11 +1,11 @@
 ﻿using PersonApp.Models;
 
 namespace PersonApp.Contexts;
-public class PersonContext : PersonContextBase
+public class PersonContext : IPersonContext
 {
-    public override List<Person> People { get; } = new List<Person>();
+    public List<Person> People { get; } = new List<Person>();
 
-    public override void AddPeople(List<Person> people)
+    public void AddPeople(List<Person> people)
     {
         if (people is null)
             throw new ArgumentNullException(null, "people should not be null");

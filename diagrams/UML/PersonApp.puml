@@ -1,12 +1,39 @@
 @startuml "PersonApp"
 skinparam ClassAttributeIconSize 0
 
+class AskUser {
+    - personController : PersonController
+    - personStringFormatter : IPersonStringFormatter
+    - csvParserDictionary : Dictionary<string, IPersonCsvParser>
+
+    + AskUser(personController : PersonController,\n\
+        personStringFormatter : IPersonStringFormatter,\n\
+        csvParserDictionary : Dictionary<string, IPersonCsvParser>)
+
+    + AskUserToLoadCsvFileOrChangeCsvParser() : void
+    + AskUserToChooseCsvParser() : void
+    + AskUserForCsvFilePath() : void
+    + AskUserToSelectPeopleFilterOption() : void
+    + AskUserToLoadMoreCsvOrSelectAnotherFilterOption() : void
+    + PrintPeople(people : List<Person>) : void
+}
+
+interface IPersonStringFormatter <<interface>> {
+    + GetPersonFormattedString(person : Person) : string
+}
+
+class PersonStringFormatter {
+    + GetPersonFormattedString(person : Person) : string
+}
+
 class PersonController {
-    - personContext : PersonContextBase
+    - personContext : IPersonContext
     - personCsvParser : IPersonCsvParser
 
-    + PersonController(personContext : PersonContextBase, \n\
-        personCsvParser : PersonContextBase)
+    + PersonController(personContext : IPersonContext, \n\
+        personCsvParser : IPersonCsvParser)
+
+    + SetPersonCsvParser(personCsvParser : IPersonCsvParser) : void
 
     + LoadPeopleFromCsvFile(filepath : string) : void
 
@@ -18,15 +45,13 @@ class PersonController {
     + GetPeopleWithFirstPhoneNumberLargerThanSecondPhoneNumber() : List<Person>
 }
 
-abstract PersonContextBase <<abstract>> {
-    {abstract} + People : List<Person>
-
-    {abstract} + AddPeople(people : List<Person>) : void
+interface IPersonContext <<intereface>> {
+    + GetPeople() : List<Person>
+    + AddPeople(people : List<Person>) : void
 }
 
 class PersonContext {
-    + People : List<Person>
-
+    + GetPeople() : List<Person>
     + AddPeople(people : List<Person>) : void
 }
 
@@ -53,11 +78,16 @@ class Person {
     + Web : string
 }
 
-PersonController --> PersonContextBase
-PersonController --> IPersonCsvParser
+AskUser o-- PersonController
+AskUser o-- IPersonStringFormatter
 
-PersonContextBase <|-- PersonContext
-PersonContextBase ---> Person
+IPersonStringFormatter <|.. PersonStringFormatter
+
+PersonController o-- IPersonContext
+PersonController o-- IPersonCsvParser
+
+IPersonContext <|.. PersonContext
+IPersonContext ---> Person
 
 IPersonCsvParser <|.. SimplePersonCsvParser
 IPersonCsvParser ---> Person

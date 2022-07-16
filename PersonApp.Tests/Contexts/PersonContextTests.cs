@@ -4,7 +4,7 @@ using PersonApp.Models;
 namespace PersonApp.Tests.Contexts;
 internal class PersonContextTests
 {
-    private PersonContextBase _personContext;
+    private IPersonContext _personContext;
 
     [SetUp]
     public void Setup()
