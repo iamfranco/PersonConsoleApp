@@ -44,6 +44,43 @@ internal class PersonControllerTests
     }
 
     [Test]
+    public void SetPersonCsvParser_With_Null_PersonCsvParser_Should_Throw_Null_Exception()
+    {
+        // Arrange
+        IPersonCsvParser personCsvParser = null;
+
+        // Act
+        Action act = () => _personController.SetPersonCsvParser(personCsvParser);
+
+        // Assert
+        act.Should().Throw<ArgumentNullException>()
+            .WithMessage("personCsvParser should not be null");
+    }
+
+    [Test]
+    public void SetPersonCsvParser_With_PersonCsvParser_Then_LoadPeopleFromCsvFile_Should_Load_With_New_Parser()
+    {
+        // Arrange
+        Mock<IPersonCsvParser> newMockPersonCsvParser = new Mock<IPersonCsvParser>();
+        string filePath = "some/file/path";
+        List<Person> people = GetListOfPeople();
+
+        _mockPersonCsvParser.Setup(p => p.Parse(filePath))
+            .Returns(people);
+
+        newMockPersonCsvParser.Setup(p => p.Parse(filePath))
+            .Returns(people);
+
+        // Act
+        _personController.SetPersonCsvParser(newMockPersonCsvParser.Object);
+        _personController.LoadPeopleFromCsvFile(filePath);
+
+        // Assert
+        _mockPersonCsvParser.Verify(x => x.Parse(filePath), Times.Never());
+        newMockPersonCsvParser.Verify(x => x.Parse(filePath), Times.Once());
+    }
+
+    [Test]
     public void LoadPeopleFromCsvFile_With_Null_FilePath_String_Should_Throw_Null_Exception()
     {
         // Arrange

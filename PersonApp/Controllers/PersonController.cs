@@ -21,6 +21,14 @@ public class PersonController
         _personCsvParser = personCsvParser;
     }
 
+    public void SetPersonCsvParser(IPersonCsvParser personCsvParser)
+    {
+        if (personCsvParser is null)
+            throw new ArgumentNullException(null, "personCsvParser should not be null");
+
+        _personCsvParser = personCsvParser;
+    }
+
     public void LoadPeopleFromCsvFile(string filePath)
     {
         if (filePath is null)
