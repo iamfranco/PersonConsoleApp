@@ -1,4 +1,5 @@
 ﻿using PersonApp.Controllers;
+using PersonApp.CsvParsers;
 using PersonApp.Models;
 using PersonApp.StringFormatters;
 using Spectre.Console;
@@ -8,11 +9,52 @@ public class AskUser
 {
     private PersonController _personController;
     private IPersonStringFormatter _personStringFormatter;
+    private Dictionary<string, IPersonCsvParser> _csvParserDictionary;
 
-    public AskUser(PersonController personController, IPersonStringFormatter personStringFormatter)
+    public AskUser(PersonController personController, 
+        IPersonStringFormatter personStringFormatter,
+        Dictionary<string, IPersonCsvParser> csvParserDictionary)
     {
         _personController = personController;
         _personStringFormatter = personStringFormatter;
+        _csvParserDictionary = csvParserDictionary;
+    }
+
+    public void AskUserToLoadCsvFileOrChangeCsvParser()
+    {
+        Dictionary<string, Action> optionsActions = new()
+        {
+            {"Load People from CSV file", AskUserForCsvFilePath },
+            {"Change CSV Parser", AskUserToChooseCsvParser },
+        };
+
+        string option = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Select one of the following options:")
+                .AddChoices(optionsActions.Keys)
+            );
+
+        Console.Clear();
+        AnsiConsole.Markup($"[green]{option}[/]\n");
+
+        optionsActions[option]();
+    }
+
+    public void AskUserToChooseCsvParser()
+    {
+        string option = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Select one of the following CSV Parser:")
+                .AddChoices(_csvParserDictionary.Keys)
+            );
+
+        Console.Clear();
+        AnsiConsole.MarkupLine($"Selected CSV Parser: [green]{option}[/]\n");
+
+        IPersonCsvParser personCsvParser = _csvParserDictionary[option];
+        _personController.SetPersonCsvParser(personCsvParser);
+
+        AskUserToLoadCsvFileOrChangeCsvParser();
     }
 
     public void AskUserForCsvFilePath()
@@ -22,7 +64,7 @@ public class AskUser
         try
         {
             _personController.LoadPeopleFromCsvFile(csvFilePath);
-        } 
+        }
         catch (FileLoadException ex)
         {
             AnsiConsole.MarkupLine($"\n[red]PROBLEM: {ex.Message}[/]\n");
