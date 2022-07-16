@@ -1,6 +1,17 @@
 @startuml "PersonApp"
 skinparam ClassAttributeIconSize 0
 
+class AskUser {
+    - personController : PersonController
+
+    + AskUser(personController : PersonController)
+
+    + AskUserForCsvFilePath() : void
+    + AskUserToSelectPeopleFilterOption() : void
+    + AskUserToLoadMoreCsvOrSelectAnotherFilterOption() : void
+    + PrintPeople(people : List<Person>) : void
+}
+
 class PersonController {
     - personContext : IPersonContext
     - personCsvParser : IPersonCsvParser
@@ -51,8 +62,10 @@ class Person {
     + Web : string
 }
 
-PersonController --> IPersonContext
-PersonController --> IPersonCsvParser
+AskUser o-- PersonController
+
+PersonController o-- IPersonContext
+PersonController o-- IPersonCsvParser
 
 IPersonContext <|-- PersonContext
 IPersonContext ---> Person
