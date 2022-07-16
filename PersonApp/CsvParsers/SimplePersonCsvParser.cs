@@ -14,7 +14,7 @@ public class SimplePersonCsvParser : IPersonCsvParser
         IEnumerable<string> csvLines = File.ReadLines(filePath);
 
         if (csvLines.Count() < 2)
-            throw new Exception("File has less than 2 lines, not suitable for loading list of people");
+            throw new FileLoadException("File has less than 2 lines, not suitable for loading list of people");
 
         string csvHeaderLine = csvLines.First();
         IEnumerable<string> csvBodyLines = csvLines.Skip(1);
@@ -68,10 +68,10 @@ public class SimplePersonCsvParser : IPersonCsvParser
             int headerIndex = headerColumns.IndexOf(headerLabel);
 
             if (headerIndex == -1)
-                throw new KeyNotFoundException($"CSV file has no header column [{headerLabel}]");
+                throw new FileLoadException($"CSV file has no header column [{headerLabel}]");
 
             if (headerIndex >= values.Count)
-                throw new Exception("CSV file is incomplete (missing fields in main content)");
+                throw new FileLoadException("CSV file is incomplete (missing fields in main content)");
 
             return values.ElementAt(headerIndex);
         }
