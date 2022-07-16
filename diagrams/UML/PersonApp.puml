@@ -3,6 +3,7 @@ skinparam ClassAttributeIconSize 0
 
 class AskUser {
     - personController : PersonController
+    - personStringFormatter : IPersonStringFormatter
 
     + AskUser(personController : PersonController)
 
@@ -10,6 +11,14 @@ class AskUser {
     + AskUserToSelectPeopleFilterOption() : void
     + AskUserToLoadMoreCsvOrSelectAnotherFilterOption() : void
     + PrintPeople(people : List<Person>) : void
+}
+
+interface IPersonStringFormatter <<interface>> {
+    + GetPersonFormattedString(person : Person) : string
+}
+
+class PersonStringFormatter {
+    + GetPersonFormattedString(person : Person) : string
 }
 
 class PersonController {
@@ -63,11 +72,14 @@ class Person {
 }
 
 AskUser o-- PersonController
+AskUser o-- IPersonStringFormatter
+
+IPersonStringFormatter <|.. PersonStringFormatter
 
 PersonController o-- IPersonContext
 PersonController o-- IPersonCsvParser
 
-IPersonContext <|-- PersonContext
+IPersonContext <|.. PersonContext
 IPersonContext ---> Person
 
 IPersonCsvParser <|.. SimplePersonCsvParser
