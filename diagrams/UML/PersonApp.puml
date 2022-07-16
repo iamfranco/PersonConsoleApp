@@ -4,9 +4,14 @@ skinparam ClassAttributeIconSize 0
 class AskUser {
     - personController : PersonController
     - personStringFormatter : IPersonStringFormatter
+    - csvParserDictionary : Dictionary<string, IPersonCsvParser>
 
-    + AskUser(personController : PersonController)
+    + AskUser(personController : PersonController,\n\
+        personStringFormatter : IPersonStringFormatter,\n\
+        csvParserDictionary : Dictionary<string, IPersonCsvParser>)
 
+    + AskUserToLoadCsvFileOrChangeCsvParser() : void
+    + AskUserToChooseCsvParser() : void
     + AskUserForCsvFilePath() : void
     + AskUserToSelectPeopleFilterOption() : void
     + AskUserToLoadMoreCsvOrSelectAnotherFilterOption() : void
@@ -27,6 +32,8 @@ class PersonController {
 
     + PersonController(personContext : IPersonContext, \n\
         personCsvParser : IPersonCsvParser)
+
+    + SetPersonCsvParser(personCsvParser : IPersonCsvParser) : void
 
     + LoadPeopleFromCsvFile(filepath : string) : void
 
