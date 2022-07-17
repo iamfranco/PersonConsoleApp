@@ -1,0 +1,29 @@
+@startuml "Adapter"
+skinparam ClassAttributeIconSize 0
+
+interface IPersonCsvParser <<interface>> {
+    + Parse(filepath : string) : List<Person>
+}
+
+class ThirdPartyCsvParserAdapter {
+    - thirdPartyCsvParser : ThirdPartyCsvParser<Person>
+
+    + Parse(filepath : string) : List<Person>
+}
+
+class ThirdPartyCsvParser< ResultType > {
+    + ParseCsv(filepath : string) : List<ResultType> 
+}
+
+IPersonCsvParser <|.. ThirdPartyCsvParserAdapter
+
+ThirdPartyCsvParserAdapter o- ThirdPartyCsvParser
+
+note bottom of ThirdPartyCsvParserAdapter
+Parse(string filepath)
+{
+    return thirdPartyCsvParser.ParseCsv(filepath);
+}
+end note
+
+@enduml
