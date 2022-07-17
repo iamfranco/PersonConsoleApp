@@ -80,6 +80,7 @@ class Person {
 
 AskUser o-- PersonController
 AskUser o-- IPersonStringFormatter
+AskUser o-- IPersonCsvParser
 
 IPersonStringFormatter <|.. PersonStringFormatter
 
