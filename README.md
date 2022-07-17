@@ -33,6 +33,78 @@ dotnet run
 
 ![App Demo](diagrams/appDemo.gif)
 
+When the console app runs, it'll first ask you to select whether you want to do:
+
+```
+Select one of the following options:
+
+> Load People from CSV file
+  Change CSV Parser
+```
+
+Use `[Up Arrow]`, `[Down Arrow]`, and `[Enter]` keys on the keyboard to select.
+
+Choosing the `Load People from CSV file` option allows you to specify the full path to the CSV file that you want to load:
+
+```
+Load People from CSV file
+Enter .csv file path to load (full path): C:\Users\Franco\Downloads\input.csv
+```
+
+For example, here we're loading the `input.csv` file located in `C:\Users\Franco\Downloads\input.csv`.
+
+Then a selection menu appears for you to select the filtering options:
+
+```
+.csv file loaded.
+
+Select one of the filtering options below:
+
+  Get people with company name that has "Esq"
+> Get people who lives in "Derbyshire"
+  Get people with three digit house number
+  Get people with URL longer than 35 characters
+  Get people with single digit postcode area code
+  Get people with first phone number larger than second phone number
+```
+
+After selecting a filtering option, the console app will print the filtered list of people onto screen:
+
+```
+Get people who lives in "Derbyshire"
+
+Count: 10
+
+10 - Yuette Klapec - Max Video
+12 - Charlesetta Erm - Cain, John M Esq
+49 - Pedro Aschoff - Charlotte Chamber
+88 - Jeannetta Coolidge - Tiny Tots Originals Div
+142 - Allene Burau - Allied Plastics
+174 - Freida Newyear - Flash, Elena Salerno Esq
+214 - Edwin Logghe - Joseph Victor & Son Inc
+303 - Almeta Keehner - Hoolahan, Catherine G Esq
+482 - Ahmad Alsaqri - Alliance Construction Co Inc
+486 - Zachary Freeburger - Country Kitchen
+```
+
+where each person is printed in the format of:
+
+```
+position in full list - full name - company name
+```
+
 # UML Diagram
 
-![UML Diagram](diagrams/UML/PersonApp.png)
+Here's the UML class diagram for this application.
+
+![Full App UML Diagram](diagrams/UML/PersonApp.png)
+
+# Extensibility
+
+If the user wants to use a 3rd part CSV parser to parse the CSV file instead of using the default CSV parser of this application, then they'll need to create **a new class** that implements the `IPersonCsvParser` interface.
+
+And in that in that new class, implement the `.Parse` method to use their desired CSV parser implementation.
+
+![Adapter UML Diagram](diagrams/UML/Adapter.png)
+
+For example above, we could use the **adapter** design pattern so that the new class (`ThirdPartyCsvParserAdapter`) implements from the `IPersonCsvParser` and uses the 3rd party CSV parser to parser the file.
