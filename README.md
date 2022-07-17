@@ -103,7 +103,7 @@ Here's the UML class diagram for this application.
 
 If the user wants to use a 3rd part CSV parser to parse the CSV file instead of using the default CSV parser of this application, then they'll need to create **a new class** that implements the `IPersonCsvParser` interface.
 
-And in that in that new class, implement the `.Parse` method to use their desired CSV parser implementation.
+And in that **new class**, implement the `.Parse` method to use their desired CSV parser implementation.
 
 ![Adapter UML Diagram](diagrams/UML/Adapter.png)
 
