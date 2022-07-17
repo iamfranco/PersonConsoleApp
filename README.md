@@ -108,3 +108,32 @@ And in that **new class**, implement the `.Parse` method to use their desired CS
 ![Adapter UML Diagram](diagrams/UML/Adapter.png)
 
 For example above, we could use the **adapter** design pattern so that the new class (`ThirdPartyCsvParserAdapter`) implements from the `IPersonCsvParser` and uses the 3rd party CSV parser to parser the file.
+
+Then go to `Program.cs` and add a new item within the dictionary `csvParserDictionary`:
+
+```c#
+Dictionary<string, IPersonCsvParser> csvParserDictionary = new()
+{
+    {"Default CSV Parser", defaultPersonCsvParser },
+    {"Third Party CSV Parser", new ThirdPartyCsvParserAdapter() } // new item
+};
+```
+
+So that when the user runs the application and selects the `Change CSV Parser` option:
+
+```
+Select one of the following options:
+
+  Load People from CSV file
+> Change CSV Parser
+```
+
+they'll see a new CSV Parser option for their `Third Party CSV Parser`, which they can select:
+
+```
+Change CSV Parser
+Select one of the following CSV Parser:
+
+  Default CSV Parser
+> Third Party CSV Parser
+```
